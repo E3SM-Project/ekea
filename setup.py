@@ -3,18 +3,18 @@
 def main():
 
     from setuptools import setup, find_packages
-    from ekea.main import E3SMKGen as kgen
+    from ekea.main import E3smKea as kea
 
     console_scripts = ["ekea=ekea.__main__:main"]
     install_requires = ["fortlab>=0.1.9"]
 
     setup(
-        name=kgen._name_,
-        version=kgen._version_,
-        description=kgen._description_,
-        long_description=kgen._long_description_,
-        author=kgen._author_,
-        author_email=kgen._author_email_,
+        name=kea._name_,
+        version=kea._version_,
+        description=kea._description_,
+        long_description=kea._long_description_,
+        author=kea._author_,
+        author_email=kea._author_email_,
         classifiers=[
             "Development Status :: 3 - Alpha",
             "Intended Audience :: Science/Research",

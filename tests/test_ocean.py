@@ -11,7 +11,7 @@ def get_test_configuration():
 
     cfg = {}
 
-    if is_summit
+    if is_summit:
         cfg["scratchdir"] = "/gpfs/alpine/cli115/scratch/grnydawn"
         cfg["createcase"] = "ne4_ne4"
 
@@ -65,7 +65,7 @@ def create_e3smocn_case(cfg):
     prj.run_command(cmd.format(**cfg) , workdir=cfg["workdir"])
 
 
-def extract_kernel(cfg)
+def extract_kernel(cfg):
 
     opts = "-o '{outdir}' --replace '{orgfile}:{newfile}'"
     cmd = "-- mpasocn '{casedir}' '{callsitepath}' " + opts
@@ -75,7 +75,7 @@ def extract_kernel(cfg)
     assert ret == 0
 
 
-def check_kernel(cfg)
+def check_kernel(cfg):
 
     assert os.path.isfile(os.path.join(cfg["kerneldir"], "ocn_diagnostic_solve_part1.0.0.1"))
 
@@ -100,7 +100,7 @@ def check_kernel(cfg)
 def test_ocean(capsys):
 
     # check system
-    cfg = get_test_configuration():
+    cfg = get_test_configuration()
 
     # download e3sm
     download_e3sm(cfg)
