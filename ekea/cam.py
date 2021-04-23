@@ -1,4 +1,4 @@
-"""EKea Atmospheric Kernel"""
+"""EKea CAM Kernel"""
 
 import os, subprocess, json, shutil
 from microapp import App, appdict
@@ -7,13 +7,14 @@ from ekea.utils import xmlquery
 
 here = os.path.dirname(os.path.abspath(__file__))
 
-class EAMKernel(E3smKernel):
+class CamKernel(E3smKernel):
 
-    _name_ = "eam"
-    _version_ = "0.1.1"
+    _name_ = "cam"
+    _version_ = "0.1.0"
 
     def extract(self, args):
 
         fwds = {}
+
 
         return fwds

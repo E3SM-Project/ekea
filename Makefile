@@ -64,10 +64,13 @@ lint: ## check style with flake8
 #	pytest ./tests -s -vv --pyargs ekea
 
 test:
-	pytest ./tests/test_ocean.py -s -vv --pyargs ekea
+	pytest ./tests/test_eam.py -s -vv --pyargs ekea
 
-testa:
-	pytest ./tests/test_atmos.py -s -vv --pyargs ekea
+testc:
+	pytest ./tests/test_cam.py -s -vv --pyargs ekea
+
+testo:
+	pytest ./tests/test_ocean.py -s -vv --pyargs ekea
 
 test-all: ## run tests on every Python version with tox
 	tox
@@ -103,6 +106,7 @@ install: clean ## install the package to the active Python's site-packages
 	${PY} setup.py install
 
 dev-install: clean ## install the package locally
+	pip install -e ../microapp
 	pip install -e ../fortlab
 	pip install -e .
 	#${PY} setup.py develop
