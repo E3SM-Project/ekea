@@ -3,10 +3,10 @@
 def main():
 
     from setuptools import setup, find_packages
-    from ekea.main import E3smKea as kea
+    from ekea.main import E3SMKea as kea
 
     console_scripts = ["ekea=ekea.__main__:main"]
-    install_requires = ["fortlab>=0.1.9"]
+    install_requires = ["fortlab>=0.1.10"]
 
     setup(
         name=kea._name_,

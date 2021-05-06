@@ -4,8 +4,8 @@ from ekea.utils import xmlquery
 
 here = os.path.dirname(os.path.abspath(__file__))
 
-class EAMKernel(App):
-    _name_ = "eam"
+class KernelTime(App):
+    _name_ = "ktime"
     _version_ = "0.1.0"
 
     def __init__(self, mgr):
@@ -28,12 +28,24 @@ class EAMKernel(App):
         buildcmd = "cd %s; ./case.build" % casedir
         runcmd = "cd %s; ./case.submit" % casedir
 
+        # TODO: move this batch support to common area
+
         batch = xmlquery(casedir, "BATCH_SYSTEM", "--value")
         if batch == "lsf":
             runcmd += " --batch-args='-K'"
-        else:
-            raise Exception("Unknown batch system")
 
+        elif "slurm" in batch:
+            runcmd += " --batch-args='-W'"
+
+        elif batch == "pbs": # SGE PBS
+            runcmd += " --batch-args='-sync yes'"
+            #runcmd += " --batch-args='-Wblock=true'" # PBS
+
+        elif batch == "moab":
+            runcmd += " --batch-args='-K'"
+
+        else:
+            raise Exception("Unknown batch system: %s" % batch)
  
         compjson = os.path.join(outdir, "compile.json")
         outfile = os.path.join(outdir, "model.json")
@@ -41,13 +53,13 @@ class EAMKernel(App):
 
         # get mpi and git info here(branch, commit, ...)
         srcroot = os.path.abspath(os.path.realpath(xmlquery(casedir, "SRCROOT", "--value")))
-        #reldir = os.path.relpath(csdir, start=os.path.join(srcroot, "components", "mpas-source", "src"))
+        reldir = os.path.relpath(csdir, start=os.path.join(srcroot, "components", "mpas-source", "src"))
 
-        #callsitefile2 = os.path.join(casedir, "bld", "cmake-bld", reldir, "%s.f90" % csname)
+        callsitefile2 = os.path.join(casedir, "bld", "cmake-bld", reldir, "%s.f90" % csname)
 
         # get mpi: mpilib from xmlread , env ldlibrary path with the mpilib
         mpidir = os.environ["MPI_ROOT"]
-        excludefile = os.path.join(here, "exclude_e3sm_eam.ini")
+        excludefile = os.path.join(here, "exclude_e3sm_mpas.ini")
 
         blddir = xmlquery(casedir, "OBJROOT", "--value")
         if not os.path.isfile(compjson) and os.path.isdir(blddir):
@@ -102,7 +114,7 @@ class EAMKernel(App):
         #cmd = " -- resolve --compile-info '@data' '%s'" % callsitefile
         rescmd = (" -- resolve --mpi header='%s/include/mpif.h' --openmp enable"
                  " --compile-info '%s' --exclude-ini '%s' '%s'" % (
-                mpidir, compjson, excludefile, callsitefile))
+                mpidir, compjson, excludefile, callsitefile2))
         #ret, fwds = prj.run_command(cmd)
         #assert ret == 0
 
@@ -111,8 +123,5 @@ class EAMKernel(App):
                     #outdir, cleancmd, buildcmd, runcmd, outfile)
         cmd = rescmd + " -- runscan '@analysis' -s 'timing' --outdir '%s' --buildcmd '%s' --runcmd '%s' --output '%s'" % (
                     outdir, buildcmd, runcmd, outfile)
-        #ret, fwds = prj.run_command(cmd)
-        # add model config to analysis
 
-        cmd = cmd + " -- kernelgen '@analysis' --model '@model' --repr-etime 'ndata=40,nbins=10'  --outdir '%s'" % outdir
         ret, fwds = self.manager.run_command(cmd)

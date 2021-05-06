@@ -60,24 +60,15 @@ clean-test: ## remove test and coverage artifacts
 lint: ## check style with flake8
 	flake8 ${NAME} tests
 
-#test: ## run tests quickly with the default Python
-#	pytest ./tests -s -vv --pyargs ekea
-
-test:
-	pytest ./tests/test_eam.py -s -vv --pyargs ekea
-
-testc:
-	pytest ./tests/test_cam.py -s -vv --pyargs ekea
-
-testo:
-	pytest ./tests/test_ocean.py -s -vv --pyargs ekea
+test: ## run tests quickly with the default Python
+	pytest ./tests -s -vv --pyargs ${NAME}
 
 test-all: ## run tests on every Python version with tox
 	tox
 
 coverage: ## check code coverage quickly with the default Python
 	#coverage run --source ${NAME} -m unittest
-	coverage run --source ${NAME} pytest --pyargs ekea
+	coverage run --source ${NAME} pytest --pyargs ${NAME}
 	coverage report -m
 	#coverage html
 	#$(BROWSER) htmlcov/index.html
@@ -86,7 +77,7 @@ doc: ## generate Sphinx HTML docsumentation, including API docs
 	rm -f doc/${NAME}.rst
 	rm -f doc/modules.rst
 	#sphinx-apidocs -o doc/ ${NAME}
-	ekea doc/gencmddoc.plx 
+	${NAME} doc/gencmddoc.plx 
 	$(MAKE) -C doc clean
 	$(MAKE) -C doc html
 	$(BROWSER) doc/build/html/index.html
@@ -106,7 +97,6 @@ install: clean ## install the package to the active Python's site-packages
 	${PY} setup.py install
 
 dev-install: clean ## install the package locally
-	pip install -e ../microapp
 	pip install -e ../fortlab
 	pip install -e .
 	#${PY} setup.py develop

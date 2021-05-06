@@ -1,4 +1,4 @@
 ekea
 ================
 
-E3SM Kernel Extraction and Analysis Tool
+E3SM Kernel Extractor and Analyser

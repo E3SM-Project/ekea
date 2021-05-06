@@ -1,0 +1,33 @@
+"Microapp E3SMKGen module"
+
+from microapp import App
+
+class E3SMKGen(App):
+
+    _name_ = "ekgen"
+    _version_ = "0.1.0"
+    _description_ = "Microapp E3SM Fortran Kernel Generator"
+    _long_description_ = "Microapp E3SM Fortran Kernel Generator"
+    _author_ = "Youngsung Kim"
+    _author_email_ = "youngsung.kim.act2@gmail.com"
+    _url_ = "https://github.com/grnydawn/ekgen"
+
+    def __init__(self, mgr):
+
+        self.add_argument("casedir", help="E3SM case directory")
+        self.add_argument("callsite", help="Callsite source file")
+        self.add_argument("-o", "--outdir", help="Output directory")
+
+        #self.register_forward("data", type=Any, help="Python dictionary object")
+
+    def perform(self, args):
+
+        casedir = args.casedir["_"]
+        callsite = args.callsite["_"]
+        outdir = args.outdir["_"] if args.outdir else os.getcwd()
+
+        if not os.isdir(outdir):
+            os.makedirs(outdir)
+
+        import pdb; pdb.set_trace()
+        #self.add_forward(data=xml)
