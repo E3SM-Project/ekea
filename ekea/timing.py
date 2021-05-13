@@ -4,8 +4,12 @@ from ekea.utils import xmlquery
 
 here = os.path.dirname(os.path.abspath(__file__))
 
-class KernelTime(App):
-    _name_ = "ktime"
+class KernelTimeViewer(App):
+    _name_ = "ktimeview"
+    _version_ = "0.1.0"
+
+class KernelTimeGenerator(App):
+    _name_ = "ktimegen"
     _version_ = "0.1.0"
 
     def __init__(self, mgr):
@@ -125,3 +129,14 @@ class KernelTime(App):
                     outdir, buildcmd, runcmd, outfile)
 
         ret, fwds = self.manager.run_command(cmd)
+
+        if os.path.isfile(outfile):
+            with open(outfile) as f:
+                mfile = json.load(f)
+                if "etime" in mfile:
+                    print("Kernel timing file is generated at '%s'." % outfile)
+
+                else:
+                    print("ERROR: wrong rkKernel timing file is generated at '%s'." % outfile)
+        else: 
+            print("No kernel timing file is generated.")
