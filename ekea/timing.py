@@ -2,11 +2,95 @@ import os, subprocess, json, shutil
 from microapp import App, appdict
 from ekea.utils import xmlquery
 
+from bokeh.plotting import figure, show
+from bokeh.models import ColumnDataSource
+
 here = os.path.dirname(os.path.abspath(__file__))
 
 class KernelTimeViewer(App):
     _name_ = "ktimeview"
     _version_ = "0.1.0"
+
+    def __init__(self, mgr):
+
+        self.add_argument("model", metavar="model", help="Timing model file")
+
+    def perform(self, args):
+
+        etimes = {}
+        min_start = 1.E10
+        min_etime = 1.E10
+        max_etime = 0.
+ 
+        # read model file
+        with open(args.model["_"]) as f:
+            model = json.load(f)
+            for mpi, d1 in model["etime"].items():
+                if not mpi.isnumeric():
+                    continue
+
+                for omp, d2 in d1.items():
+                    ylabel = mpi+"."+omp
+                    if ylabel not in etimes:
+                        etimes[ylabel] = {}
+                    for invoke in sorted(d2.keys()):
+                        start, stop = [float(v) for v in d2[invoke]]
+
+                        if start < min_etime:
+                            min_etime = start
+
+                        etime = stop - start
+                        if etime < min_etime:
+                            min_etime = etime
+
+                        elif etime > max_etime:
+                            max_etime = etime
+
+                        etimes[ylabel][start] = etime
+
+        source = ColumnDataSource()
+
+        p = figure(title="etime test", x_axis_label="time", y_axis_label="item")
+
+        # TODO: Y : MPI + OpenMP selections
+        #       X : Time, merge invervals per abs time, invocations, ...
+
+        #for ylabel in sorted(etimes)[:5]:
+        for ylabel in sorted(etimes):
+            x, y = [], []
+            points = etimes[ylabel]
+            min_y = 1.E10
+            max_y = 0.
+            #for k in sorted(points)[:20]:
+            for k in sorted(points):
+                yval = points[k]
+                x.append(k)
+                #y.append((ylabel, yval))
+                y.append(yval)
+                
+                if yval < min_y:
+                    min_y = yval 
+
+                elif yval > max_y:
+                    max_y = yval 
+
+            x.insert(0, x[0]); x.append(x[-1])
+            #y.insert(0, (ylabel, min_y)); y.append((ylabel, min_y))
+            y.insert(0, min_y); y.append(min_y)
+
+            xlabel = ylabel + "_x"
+            source.add(x, xlabel)
+            source.add(y, ylabel)
+            p.line(x, y, alpha=0.2, legend_label="Etime", line_width=2)
+            #p.vbar(x=x, top=y, legend_label="Etime", line_width=2)
+            #p.patch(x=x, ylabel, alpha=0.6, line_color="black", source=source)
+            #import pdb; pdb.set_trace()
+            #p.patch(xlabel, ylabel, alpha=0.6, line_color="black", source=source)
+
+        p.toolbar_location = "below"
+
+        show(p)
+
 
 class KernelTimeGenerator(App):
     _name_ = "ktimegen"
