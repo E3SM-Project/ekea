@@ -24,4 +24,5 @@ CALLSITEFILE=/ccs/home/grnydawn/repos/github/E3SM/components/mpas-source/src/cor
 OUTDIR=/ccs/home/grnydawn/scrcli115/kernels/ocn/ekgen_to_ekea
 #OUTDIR=/ccs/home/grnydawn/scrcli115/kernels/ocn/ekgen_release
 
-ekea mpasocn $CASEDIR $CALLSITEFILE -o $OUTDIR
+#ekea mpasocn $CASEDIR $CALLSITEFILE -o $OUTDIR
+ekea varlist $CASEDIR $CALLSITEFILE -o $OUTDIR
