@@ -2,10 +2,23 @@ import os, subprocess, json, shutil
 from microapp import App, appdict
 from ekea.utils import xmlquery
 
-from bokeh.plotting import figure, show
-from bokeh.models import ColumnDataSource
+import numpy as np
+
+from bokeh.plotting import figure
+from bokeh.models import ColumnDataSource, MultiSelect, Select, Div
+from bokeh.server.server import Server
+from bokeh.layouts import column, row
 
 here = os.path.dirname(os.path.abspath(__file__))
+
+description = """
+<h1>EKea Timing Plot</h1>
+  
+<p>
+<h2>Interact with the widgets to query a subset of kernel timing to plot.</h2>
+</p>
+<br />
+"""
 
 class KernelTimeViewer(App):
     _name_ = "ktimeview"
@@ -15,81 +28,157 @@ class KernelTimeViewer(App):
 
         self.add_argument("model", metavar="model", help="Timing model file")
 
+    def modify_doc(self, doc):
+
+        self.source = ColumnDataSource(data=dict(top=[], left=[], right=[]))
+
+        self.kplot = figure()
+        self.kplot.y_range.start = 0
+        self.kplot.quad(top="top", bottom=0, left="left", right="right", source=self.source)
+
+        desc = Div(text=description, sizing_mode="stretch_width")
+
+        self.sel_procs = MultiSelect(title="Select MPI.OpenMP", options=self.procs, value=["All"])
+        self.sel_plots = Select(title="Select Plot Type", options=self.plots, value=self.plots[0])
+        self.sel_invokes = MultiSelect(title="Select invokes", options=self.invokes, value=["All"])
+
+        controls = [self.sel_procs, self.sel_invokes, self.sel_plots]
+
+        for control in controls:
+            control.on_change("value", lambda attr, old, new: self.update())
+
+        root = column(desc, row(self.sel_procs, column(self.sel_plots, self.kplot, self.sel_invokes)))
+
+        self.update()
+
+        doc.add_root(root)
+        doc.title = "Kernel Timing"
+
     def perform(self, args):
 
-        etimes = {}
-        min_start = 1.E10
-        min_etime = 1.E10
-        max_etime = 0.
- 
-        # read model file
+        self.add_argument("model", metavar="model", help="Timing model file")
+
         with open(args.model["_"]) as f:
-            model = json.load(f)
-            for mpi, d1 in model["etime"].items():
-                if not mpi.isnumeric():
+            self.jmodel = json.load(f)
+
+        #self.source = ColumnDataSource(data=dict(top=[], left=[], right=[]))
+
+        self.procs = ["All"]
+        self.invokes = ["All"]
+        self.plots = ["Elapsed Times", "Alignment"]
+
+        self.labels = {
+            "xlabel" : {
+                self.plots[0] : "elapsed time (sec)",
+                self.plots[1] : "Time deviation from the average (sec)"
+            },
+
+            "ylabel" : {
+                self.plots[0] : "frequency",
+                self.plots[1] : "frequency"
+            }
+        }
+
+        for mpi, d1 in self.jmodel["etime"].items():
+            if not mpi.isnumeric():
+                continue
+
+            for omp, d2 in d1.items():
+                ylabel = mpi+"."+omp
+
+                if ylabel not in self.procs:
+                    self.procs.append(ylabel)
+
+                for invoke in d2.keys():
+                    if invoke not in self.invokes:
+                        self.invokes.append(invoke)
+
+        #src = pd.read_json("model.json")
+        #summary = src.loc["_summary_"]
+        #src = src.drop(labels=["_summary_"])
+
+        server = Server({'/': self.modify_doc}, num_procs=4)
+        server.start()
+        server.io_loop.add_callback(server.show, "/")
+        server.io_loop.start()
+
+    def update(self):
+
+        vals, x_name, y_name = self.select_timings()
+
+        top, edges = np.histogram(vals, density=True, bins=min(100, len(vals)))
+
+        self.kplot.xaxis.axis_label = x_name
+        self.kplot.yaxis.axis_label = y_name
+        self.kplot.title.text = ""
+
+        self.source.data = dict(
+            top= top,
+            left= edges[:-1],
+            right= edges[1:]
+        )
+
+    def select_timings(self):
+
+        sel_plot = self.sel_plots.value
+        sel_proc = self.sel_procs.value
+        sel_invoke = self.sel_invokes.value
+
+        min_etime = 10E10
+        max_etime = 0.0
+        resolution = None
+
+        vals = []
+        vallist = []
+        valdict = {}
+
+        for mpi, d1 in self.jmodel["etime"].items():
+            if not mpi.isnumeric():
+                continue
+
+            for omp, d2 in d1.items():
+
+                ylabel = mpi+"."+omp
+
+                if "All" not in sel_proc and ylabel not in sel_proc:
                     continue
 
-                for omp, d2 in d1.items():
-                    ylabel = mpi+"."+omp
-                    if ylabel not in etimes:
-                        etimes[ylabel] = {}
-                    for invoke in sorted(d2.keys()):
-                        start, stop = [float(v) for v in d2[invoke]]
+                for invoke in sorted(d2.keys(), key=int):
 
-                        if start < min_etime:
-                            min_etime = start
+                    if "All" not in sel_invoke and invoke not in sel_invoke:
+                        continue
 
-                        etime = stop - start
-                        if etime < min_etime:
-                            min_etime = etime
+                    interval = tuple(float(v) for v in d2[invoke])
 
-                        elif etime > max_etime:
-                            max_etime = etime
+                    if interval[0] < min_etime:
+                        min_etime = interval[0]
 
-                        etimes[ylabel][start] = etime
+                    if interval[1] < max_etime:
+                        max_etime = interval[1]
 
-        source = ColumnDataSource()
+                    if sel_plot == self.plots[0]:
+                        vallist.append(abs(interval[0] - interval[1]))
 
-        p = figure(title="etime test", x_axis_label="time", y_axis_label="item")
+                    elif sel_plot == self.plots[1]:
+                        if invoke not in valdict:
+                            valdict[invoke] = []
 
-        # TODO: Y : MPI + OpenMP selections
-        #       X : Time, merge invervals per abs time, invocations, ...
+                        valdict[invoke].append(interval[0])
 
-        #for ylabel in sorted(etimes)[:5]:
-        for ylabel in sorted(etimes):
-            x, y = [], []
-            points = etimes[ylabel]
-            min_y = 1.E10
-            max_y = 0.
-            #for k in sorted(points)[:20]:
-            for k in sorted(points):
-                yval = points[k]
-                x.append(k)
-                #y.append((ylabel, yval))
-                y.append(yval)
-                
-                if yval < min_y:
-                    min_y = yval 
+        if sel_plot == self.plots[0]:
+            vals = vallist
 
-                elif yval > max_y:
-                    max_y = yval 
+        elif sel_plot == self.plots[1]:
+            for invoke, stimes in valdict.items():
+                valavg = sum(stimes) / float(len(stimes))
+                vals.extend([s - valavg for s in stimes])
 
-            x.insert(0, x[0]); x.append(x[-1])
-            #y.insert(0, (ylabel, min_y)); y.append((ylabel, min_y))
-            y.insert(0, min_y); y.append(min_y)
+        x_name = self.labels["xlabel"][sel_plot]
+        y_name = self.labels["ylabel"][sel_plot]
 
-            xlabel = ylabel + "_x"
-            source.add(x, xlabel)
-            source.add(y, ylabel)
-            p.line(x, y, alpha=0.2, legend_label="Etime", line_width=2)
-            #p.vbar(x=x, top=y, legend_label="Etime", line_width=2)
-            #p.patch(x=x, ylabel, alpha=0.6, line_color="black", source=source)
-            #import pdb; pdb.set_trace()
-            #p.patch(xlabel, ylabel, alpha=0.6, line_color="black", source=source)
+        return vals, x_name, y_name
 
-        p.toolbar_location = "below"
 
-        show(p)
 
 
 class KernelTimeGenerator(App):
