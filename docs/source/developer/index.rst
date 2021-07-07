@@ -1,10 +1,10 @@
 .. _examples-index:
 
 *****************
-Develper
+Developers
 *****************
 
-.. ekea is an extension of a Fortlab kernel extraction and analysis framework.
+.. ekea evolved into a comprehensive kernel extraction and analysis framework tailored for E3SM based on an extension to Fortlab(link) framework. 
 
 T.B.D.
 
