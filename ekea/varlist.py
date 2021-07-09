@@ -112,7 +112,7 @@ class VariableList(App):
         #    stdout = subprocess.check_output("make recover", cwd=etimedir, shell=True)
 
         #cmd = " -- resolve --compile-info '@data' '%s'" % callsitefile
-        rescmd = (" -- resolve --mpi header='%s/include/mpif.h' --openmp enable"
+        rescmd = (" -- resolve --mpi header='%s/include/mpif.h',build_resolver=true --openmp enable"
                  " --compile-info '%s' --exclude-ini '%s' '%s'" % (
                 mpidir, compjson, excludefile, callsitefile2))
         #ret, fwds = prj.run_command(cmd)

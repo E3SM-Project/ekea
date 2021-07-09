@@ -3,6 +3,7 @@ from fortlab import Fortlab
 from ekea.mpasocn import MPASOcnKernel
 from ekea.eam import EAMKernel
 from ekea.timing import KernelTimeGenerator, KernelTimeViewer
+from ekea.varlist import VariableList
 
 class E3SMKea(Fortlab):
 
@@ -14,7 +15,7 @@ class E3SMKea(Fortlab):
     _author_email_ = "youngsung.kim.act2@gmail.com"
     _url_ = "https://github.com/grnydawn/ekea"
     _builtin_apps_ = [MPASOcnKernel, EAMKernel, KernelTimeGenerator,
-                      KernelTimeViewer]
+                      KernelTimeViewer, VariableList]
 
     def __init__(self):
         pass
