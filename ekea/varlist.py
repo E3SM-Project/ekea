@@ -59,7 +59,7 @@ class VariableList(App):
 
         # get mpi: mpilib from xmlread , env ldlibrary path with the mpilib
         mpidir = os.environ["MPI_ROOT"]
-        excludefile = os.path.join(here, "exclude_e3sm_mpas.ini")
+        excludefile = os.path.join(here, "exclude_e3sm_varlist.ini")
 
         blddir = xmlquery(casedir, "OBJROOT", "--value")
         if not os.path.isfile(compjson) and os.path.isdir(blddir):
@@ -112,6 +112,7 @@ class VariableList(App):
         #    stdout = subprocess.check_output("make recover", cwd=etimedir, shell=True)
 
         #cmd = " -- resolve --compile-info '@data' '%s'" % callsitefile
+
         rescmd = (" -- resolve --mpi header='%s/include/mpif.h',build_resolver=true --openmp enable"
                  " --compile-info '%s' --exclude-ini '%s' '%s'" % (
                 mpidir, compjson, excludefile, callsitefile2))
