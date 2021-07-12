@@ -5,8 +5,8 @@ from ekea.utils import xmlquery
 here = os.path.dirname(os.path.abspath(__file__))
 
 class VariableList(App):
-    _name_ = "varlist"
-    _version_ = "0.1.0"
+    _name_ = "varwhere"
+    _version_ = "0.1.1"
 
     def __init__(self, mgr):
 

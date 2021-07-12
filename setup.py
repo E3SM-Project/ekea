@@ -6,7 +6,7 @@ def main():
     from ekea.main import E3SMKea as kea
 
     console_scripts = ["ekea=ekea.__main__:main"]
-    install_requires = ["fortlab>=0.1.12"]
+    install_requires = ["fortlab>=0.1.13"]
 
     setup(
         name=kea._name_,
