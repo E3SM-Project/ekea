@@ -12,7 +12,7 @@ First, create your E3SM case and note the path of this case directory for later 
 
 1. Mark the kernel region with ekea directives in source file
 ----------------------------------------------------------------------------
-Choose a file among MPAS Ocean source files. In this example, we marked ekea directives in “components/mpas-source/src/core_ocean/shared/mpas_ocn_gm.F”
+Choose a file among MPAS Ocean source files. In this example, we marked ekea directives in components/mpas-source/src/core_ocean/shared/mpas_ocn_gm.F
 
 
 #### mpas_ocn_diagnostics.F#####
@@ -47,7 +47,7 @@ Choose a file among MPAS Ocean source files. In this example, we marked ekea dir
 
 2. run ekea
 --------------------
-Make directory for the kernel generation. Or you can specify the output directory using “-o” ekea option. Run ekea-mpasocn with case directory path and ekea-directed source file path.
+Make directory for the kernel generation. Or you can specify the output directory using -o ekea option. Run ekea-mpasocn with case directory path and ekea-directed source file path.
 
 
         >>> mkdir ocn_gm_kernel
@@ -58,7 +58,7 @@ ekea-mpasocn run initiates one E3SM build and two E3SM runs with additional anal
 
 3. check extracted kernel source files and data files
 ---------------------------------------------------------------
-Once completed kernel extraction successfully, “kernel” directory will be created in the output directory with source files, data files, and a Makefile. You may try to build/run the kernel as following:
+Once completed kernel extraction successfully, kernel directory will be created in the output directory with source files, data files, and a Makefile. You may try to build/run the kernel as following:
 
  
 

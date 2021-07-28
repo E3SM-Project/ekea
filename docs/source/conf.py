@@ -15,15 +15,17 @@
 # sys.path.insert(0, os.path.abspath('.'))
 
 import sphinx_rtd_theme
+from ekea import E3SMKea
 
 # -- Project information -----------------------------------------------------
 
 project = 'ekea'
-copyright = '2021, Youngsung Kim'
-author = 'Youngsung Kim'
+project = E3SMKea._name_
+copyright = '2021, %s' % E3SMKea._author_
+author = E3SMKea._author_
 
 # The full version, including alpha/beta/rc tags
-release = '0.1.0'
+release = E3SMKea._version_
 
 
 # -- General configuration ---------------------------------------------------
