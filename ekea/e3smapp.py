@@ -5,6 +5,12 @@ from microapp import appdict
 from microapp import App
 from ekea.utils import xmlquery
 
+# TODO: split functions
+# TODO: apply to varwhere
+# TODO: debug at summit
+# TODO: update doc
+# TODO: write paper
+
 here = os.path.dirname(os.path.abspath(__file__))
 
 # E3SM app
@@ -101,6 +107,11 @@ class E3SMKernel(App):
                             os.makedirs(orgdir)
 
                         shutil.copy(incbackup, incsrc)
+
+
+        self.execute(mpidir, compjson, excludefile, callsitefile, outdir, buildcmd, runcmd, outfile, )
+
+    def execute(self):
                 
         statedir = os.path.join(outdir, "state")
         etimedir = os.path.join(outdir, "etime")
