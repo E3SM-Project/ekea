@@ -16,19 +16,16 @@ Installation
 
 The easiest way to install ekea is to use the pip python package manager. 
 
-::
         >>> pip install ekea
 
 You can install ekea from github code repository if you want to try the latest version.
 
-::
         >>> git clone https://github.com/grnydawn/ekea.git
         >>> cd ekea
         >>> python setup.py install
 
 Once installed, you can test the installation by running the following command.
 
-::
         >>> ekea --version
         ekea 0.1.0
 
@@ -50,7 +47,6 @@ Once ekea is installed correctly and a E3SM case is created successfully, you ca
 
 The syntax of ekea command is following:
 
-::
         >>> ekea <mpasocn|eam> $CASEDIR $CALLSITEFILE
 
 , where $CASEDIR is a directory path to E3SM case directory and $CALLSITEFILE is a file path to a E3SM source file containing ekea kernel region directives(explained below).
@@ -66,4 +62,4 @@ ekea kernel region in source code is defined by a pair of "begin_callsite" and "
         END DO
         !$kgen  end_callsite
 
-Further information: `ekea docs <https://ekea.readthedocs.io/>`_
+ekea documentation: `https://ekea.readthedocs.io <https://ekea.readthedocs.io/>`_
