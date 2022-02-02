@@ -1,12 +1,14 @@
 import os, subprocess, json, shutil
-from microapp import App, appdict
-from ekea.utils import xmlquery
+
+from microapp import appdict
+
+from microapp import App
+from ekea.utils import xmlquery, which
 
 here = os.path.dirname(os.path.abspath(__file__))
 
-class EAMKernel(App):
-    _name_ = "eam"
-    _version_ = "0.1.0"
+# E3SM app
+class E3SMKernel(App):
 
     def __init__(self, mgr):
 
@@ -16,19 +18,19 @@ class EAMKernel(App):
 
         self.register_forward("data", help="json object")
 
-    def perform(self, args):
+    # main entry
+    def generate(self, args, excludefile):
 
         casedir = os.path.abspath(os.path.realpath(args.casedir["_"]))
         callsitefile = os.path.abspath(os.path.realpath(args.callsitefile["_"]))
-        csdir, csfile = os.path.split(callsitefile)
-        csname, csext = os.path.splitext(csfile)
+        #csdir, csfile = os.path.split(callsitefile)
+        #csname, csext = os.path.splitext(csfile)
         outdir = os.path.abspath(os.path.realpath(args.outdir["_"])) if args.outdir else os.getcwd()
 
         cleancmd = "cd %s; ./case.build --clean-all" % casedir
         buildcmd = "cd %s; ./case.build" % casedir
         runcmd = "cd %s; ./case.submit" % casedir
 
-        batch = xmlquery(casedir, "BATCH_SYSTEM", "--value")
         batch = xmlquery(casedir, "BATCH_SYSTEM", "--value")
         if batch == "lsf":
             runcmd += " --batch-args='-K'"
@@ -45,26 +47,26 @@ class EAMKernel(App):
 
         else:
             raise Exception("Unknown batch system: %s" % batch)
-
+ 
         compjson = os.path.join(outdir, "compile.json")
         outfile = os.path.join(outdir, "model.json")
         srcbackup = os.path.join(outdir, "backup", "src")
 
         # get mpi and git info here(branch, commit, ...)
         srcroot = os.path.abspath(os.path.realpath(xmlquery(casedir, "SRCROOT", "--value")))
-        #reldir = os.path.relpath(csdir, start=os.path.join(srcroot, "components", "mpas-source", "src"))
 
+
+        #reldir = os.path.relpath(csdir, start=os.path.join(srcroot, "components", "mpas-source", "src"))
         #callsitefile2 = os.path.join(casedir, "bld", "cmake-bld", reldir, "%s.f90" % csname)
 
         # get mpi: mpilib from xmlread , env ldlibrary path with the mpilib
         #mpidir = os.environ["MPI_ROOT"]
 
-        excludefile = os.path.join(here, "exclude_e3sm_eam.ini")
-
         blddir = xmlquery(casedir, "OBJROOT", "--value")
         if not os.path.isfile(compjson) and os.path.isdir(blddir):
             shutil.rmtree(blddir)
 
+        # run a fortlab command to compile e3sm and collect compiler options
         cmd = " -- buildscan '%s' --savejson '%s' --reuse '%s' --backupdir '%s'" % (
                 buildcmd, compjson, compjson, srcbackup)
         ret, fwds = self.manager.run_command(cmd)
@@ -73,7 +75,7 @@ class EAMKernel(App):
         # handle mpas converted file for callsitefile2
         # TODO: replace ekea contaminated file with original files
         # TODO: recover removed e3sm converted files in cmake-bld, ... folders
-
+        # copy source file back to original locations if deleted
         with open(compjson) as f:
             jcomp = json.load(f)
 
@@ -100,8 +102,6 @@ class EAMKernel(App):
 
                         shutil.copy(incbackup, incsrc)
                 
-        # TODO: actually scan source files if they should be recovered
-
         statedir = os.path.join(outdir, "state")
         etimedir = os.path.join(outdir, "etime")
 
@@ -111,25 +111,23 @@ class EAMKernel(App):
         elif os.path.isdir(etimedir) and os.path.isfile(os.path.join(etimedir, "Makefile")):
             stdout = subprocess.check_output("make recover", cwd=etimedir, shell=True)
 
-        #cmd = " -- resolve --compile-info '@data' '%s'" % callsitefile
-        #rescmd = (" -- resolve --mpi header='%s/include/mpif.h' --openmp enable"
-        #         " --compile-info '%s' --exclude-ini '%s' '%s'" % (
-        #        mpidir, compjson, excludefile, callsitefile))
+        # fortlab command to analyse source files
+#        rescmd = (" -- resolve --mpi header='%s/include/mpif.h' --openmp enable"
+#                 " --compile-info '%s' --exclude-ini '%s' '%s'" % (
+#                mpidir, compjson, excludefile, callsitefile))
+
+        rescmd = (" -- resolve --mpi enable --openmp enable"
+                 " --compile-info '%s' --exclude-ini '%s' '%s'" % (
+                compjson, excludefile, callsitefile))
         #ret, fwds = prj.run_command(cmd)
         #assert ret == 0
 
-        #rescmd = (" -- resolve --mpi enable --openmp enable"
-        rescmd = (" -- resolve --mpi enable"
-                 " --compile-info '%s' --exclude-ini '%s' '%s'" % (
-                compjson, excludefile, callsitefile))
-
-        # TODO wait??
-        #cmd = rescmd + " -- runscan '@analysis' -s 'timing' --outdir '%s' --cleancmd '%s' --buildcmd '%s' --runcmd '%s' --output '%s'" % (
-                    #outdir, cleancmd, buildcmd, runcmd, outfile)
+        # fortlab command to generate raw timing data
         cmd = rescmd + " -- runscan '@analysis' -s 'timing' --outdir '%s' --buildcmd '%s' --runcmd '%s' --output '%s'" % (
                     outdir, buildcmd, runcmd, outfile)
         #ret, fwds = prj.run_command(cmd)
         # add model config to analysis
 
+        # fortlab command to generate kernel and input/output data
         cmd = cmd + " -- kernelgen '@analysis' --model '@model' --repr-etime 'ndata=40,nbins=10'  --outdir '%s'" % outdir
         ret, fwds = self.manager.run_command(cmd)
