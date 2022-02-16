@@ -1,6 +1,6 @@
-"ekea setup module.
+"""ekea setup module.
 
-"
+"""
 
 def main():
 
