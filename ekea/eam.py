@@ -2,11 +2,11 @@
 
 import os, subprocess, json, shutil
 
-from ekea.e3smapp import E3SMApp, here
+from ekea.e3smapp import E3SMKernel, here
 from ekea.utils import xmlquery
 
 # EAM app
-class EAMKernel(E3SMApp):
+class EAMKernel(E3SMKernel):
 
     _name_ = "eam"
     _version_ = "0.1.0"
