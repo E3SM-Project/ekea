@@ -9,7 +9,7 @@ from ekea.utils import xmlquery
 class EAMKernel(E3SMKernel):
 
     _name_ = "eam"
-    _version_ = "0.1.0"
+    _version_ = "1.0.0"
 
     # main entry
     def perform(self, args):

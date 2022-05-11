@@ -6,7 +6,7 @@ here = os.path.dirname(os.path.abspath(__file__))
 
 class VariableList(App):
     _name_ = "varwhere"
-    _version_ = "0.1.1"
+    _version_ = "1.0.0"
 
     def __init__(self, mgr):
 

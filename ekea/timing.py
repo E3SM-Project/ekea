@@ -22,7 +22,7 @@ description = """
 
 class KernelTimeViewer(App):
     _name_ = "ktimeview"
-    _version_ = "0.1.0"
+    _version_ = "1.0.0"
 
     def __init__(self, mgr):
 
@@ -183,7 +183,7 @@ class KernelTimeViewer(App):
 
 class KernelTimeGenerator(App):
     _name_ = "ktimegen"
-    _version_ = "0.1.0"
+    _version_ = "1.0.0"
 
     def __init__(self, mgr):
 

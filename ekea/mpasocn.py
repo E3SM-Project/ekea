@@ -9,7 +9,7 @@ from ekea.utils import xmlquery
 class MPASOcnKernel(E3SMKernel):
 
     _name_ = "mpasocn"
-    _version_ = "0.1.0"
+    _version_ = "1.0.0"
 
     def perform(self, args):
 

@@ -8,7 +8,7 @@ from ekea.varwhere import VariableList
 class E3SMKea(Fortlab):
 
     _name_ = "ekea"
-    _version_ = "0.3.1"
+    _version_ = "1.0.0"
     _description_ = "E3SM Fortran Kernel Extraction and Analysis"
     _long_description_ = "E3SM Fortran Kernel Extraction and Analysis"
     _author_ = "Youngsung Kim"
