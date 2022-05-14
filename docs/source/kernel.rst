@@ -1,8 +1,8 @@
 .. _kernel-index:
 
-*****************
-Marking a kernel
-*****************
+*************************************
+Marking a kernel in a source file
+*************************************
 
 A user can specify the kernel region by placing two ekea comment-line directives before and after the region.
 

@@ -20,12 +20,11 @@ Make directory for the kernel generation. Or you can specify the output director
 
 3. check extracted kernel source files and data files
 ---------------------------------------------------------------
-Once completed kernel extraction successfully, "kernel" directory will be created in the output directory with source files, data files, and a Makefile. You may try to build/run the kernel as following:
+Once completed kernel extraction successfully, "kernel" directory will be created in the output directory with source files, data files, and a Makefile. You may try to build/run the kernel as following::
 
-
-> cd kernel
-> make build
-> make run
+        >>> cd kernel
+        >>> make build
+        >>> make run
  
 
 The extracted kernel has a built-in timing measurement and correctness check that ensure the kernel generates the same data that the original application generates. Following is a partial capture of screen output when the gm_bolus_velocity kernel runs.

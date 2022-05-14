@@ -52,8 +52,9 @@ Fortunately, most of kernel extraction task from large Fortran application can b
    intro 
    kernel 
    commands/index
+   troubleshooting/index
    usage 
-   examples/index
+   analyses/index
    developer/index
 
 Indices and tables

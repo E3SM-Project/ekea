@@ -2,6 +2,8 @@
 Getting-started
 ===============
 
+Ekea is a kernel extraction and analysis tool customized for the Energy Exascale Earth System Model (E3SM).
+
 To use ekea, ekea should be installed on the system where E3SM case directory and E3SM source files exist.
 
 -------------
