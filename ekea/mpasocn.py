@@ -2,11 +2,11 @@ import os, subprocess, json, shutil
 
 from microapp import appdict
 
-from ekea.e3smapp import E3SMKernel, here
+from ekea.e3smapp import E3SMKGen, here
 from ekea.utils import xmlquery
 
 # MPAS Ocean app
-class MPASOcnKernel(E3SMKernel):
+class MPASOcnKernel(E3SMKGen):
 
     _name_ = "mpasocn"
     _version_ = "1.0.0"

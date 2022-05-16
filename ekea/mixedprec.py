@@ -1,6 +1,6 @@
 """Ekea Mixed-precision experiment app"""
 
-here = os.path.dirname(os.path.abspath(__file__))
+import os
 
 # Mixed-precision app
 class E3SMMixedPrec(App):
@@ -15,7 +15,6 @@ class E3SMMixedPrec(App):
         self.add_argument("-o", "--outdir", type=str, help="output directory")
 
         self.register_forward("data", help="json object")
-
 
     # main entry
     def perform(self, args):
@@ -33,3 +32,4 @@ class E3SMMixedPrec(App):
         self.generate(args, "exclude_e3sm_mpas.ini")
 
         self.generate(args, "exclude_e3sm_eam.ini")
+
