@@ -13,6 +13,9 @@ class MPASOcnKernel(E3SMKernel):
 
     def perform(self, args):
 
+        casedir = os.path.abspath(os.path.realpath(args.casedir["_"]))
+        srcroot = os.path.abspath(os.path.realpath(xmlquery(casedir, "SRCROOT", "--value")))
+
         callsitefile = os.path.abspath(os.path.realpath(args.callsitefile["_"]))
         csdir, csfile = os.path.split(callsitefile)
         reldir = os.path.relpath(csdir, start=os.path.join(srcroot, "components", "mpas-source", "src"))
