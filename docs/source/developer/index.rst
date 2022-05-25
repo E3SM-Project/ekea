@@ -23,12 +23,19 @@ Source files of ekea
 
 **varwhere.py**: "VariableList" class in this file generates name reference information in generated kernel source files.
 
-Structure
+Overall Structure
 ========================
+
+ekea is implemented based on fortlab modules that implement core functions of Fortran kernel extraction and analysis.
+
 
 .. image:: ../_static/ekea-structure.png
 
 
+Ekea Code Structure
+========================
+
+T.B.D.
 
 .. toctree::
     :maxdepth: 2
