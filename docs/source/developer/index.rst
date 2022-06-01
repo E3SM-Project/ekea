@@ -32,10 +32,10 @@ ekea is implemented based on fortlab modules that implement core functions of Fo
 .. image:: ../_static/ekea-structure.png
 
 
-Ekea Code Structure
+Ekea Class Structure
 ========================
 
-T.B.D.
+.. image:: ../_static/ekea-classes.png
 
 .. toctree::
     :maxdepth: 2
