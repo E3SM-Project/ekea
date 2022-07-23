@@ -5,7 +5,7 @@ from ekea.eam import EAMKernel
 from ekea.timing import KernelTimeGenerator, KernelTimeViewer
 from ekea.varwhere import VariableList
 
-class E3SMKea(Fortlab):
+class EKEA(Fortlab):
 
     _name_ = "ekea"
     _version_ = "1.0.0"
