@@ -1,7 +1,7 @@
-.. _developer-index:
+.. _fortlab-index:
 
 *****************
-Developer
+FortLab
 *****************
 
 ekea is built on top of Fortlab kernel extraction and analysis framework to make it easy to extract a kernel from E3SM as well as to build new tools for E3SM. Please see Fortral documentation for details.

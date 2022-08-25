@@ -11,4 +11,3 @@ In addition to generating a kernel, Ekea can be used as a framework for generati
 
     timing.rst
     varwhere.rst
-    mixedprec.rst
