@@ -8,7 +8,7 @@ def main():
     from ekea.main import EKEA
 
     console_scripts = ["ekea=ekea.__main__:main"]
-    install_requires = ["fortlab>=0.1.13", "numpy", "bokeh"]
+    install_requires = ["fortlab>=1.0.0"]
 
     setup(
         name=EKEA._name_,
