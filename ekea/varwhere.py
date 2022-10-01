@@ -28,8 +28,6 @@ class VariableList(App):
         buildcmd = "cd %s; ./case.build" % casedir
         runcmd = "cd %s; ./case.submit" % casedir
 
-        # TODO: move this batch support to common area
-
         batch = xmlquery(casedir, "BATCH_SYSTEM", "--value")
         if batch == "lsf":
             runcmd += " --batch-args='-K'"
@@ -69,11 +67,6 @@ class VariableList(App):
                 buildcmd, compjson, compjson, srcbackup)
         ret, fwds = self.manager.run_command(cmd)
 
-        # save compjson with case directory map
-        # handle mpas converted file for callsitefile2
-        # TODO: replace ekea contaminated file with original files
-        # TODO: recover removed e3sm converted files in cmake-bld, ... folders
-
         with open(compjson) as f:
             jcomp = json.load(f)
 
@@ -99,25 +92,10 @@ class VariableList(App):
                             os.makedirs(orgdir)
 
                         shutil.copy(incbackup, incsrc)
-                
-        # TODO: actually scan source files if they should be recovered
-
-        #statedir = os.path.join(outdir, "state")
-        #etimedir = os.path.join(outdir, "etime")
-
-        #if os.path.isdir(statedir) and os.path.isfile(os.path.join(statedir, "Makefile")):
-        #    stdout = subprocess.check_output("make recover", cwd=statedir, shell=True)
-
-        #elif os.path.isdir(etimedir) and os.path.isfile(os.path.join(etimedir, "Makefile")):
-        #    stdout = subprocess.check_output("make recover", cwd=etimedir, shell=True)
-
-        #cmd = " -- resolve --compile-info '@data' '%s'" % callsitefile
 
         rescmd = (" -- resolve --mpi header='%s/include/mpif.h',build_resolver=true --openmp enable"
                  " --compile-info '%s' --exclude-ini '%s' '%s'" % (
                 mpidir, compjson, excludefile, callsitefile2))
-        #ret, fwds = prj.run_command(cmd)
-        #assert ret == 0
 
         cmd = rescmd + " -- vargen '@analysis' --outdir '%s'" % outdir
         ret, fwds = self.manager.run_command(cmd)

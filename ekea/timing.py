@@ -61,8 +61,6 @@ class KernelTimeViewer(App):
         with open(args.model["_"]) as f:
             self.jmodel = json.load(f)
 
-        #self.source = ColumnDataSource(data=dict(top=[], left=[], right=[]))
-
         self.procs = ["All"]
         self.invokes = ["All"]
         self.plots = ["Elapsed Times", "Alignment"]
@@ -92,10 +90,6 @@ class KernelTimeViewer(App):
                 for invoke in d2.keys():
                     if invoke not in self.invokes:
                         self.invokes.append(invoke)
-
-        #src = pd.read_json("model.json")
-        #summary = src.loc["_summary_"]
-        #src = src.drop(labels=["_summary_"])
 
         server = Server({'/': self.modify_doc}, num_procs=4)
         server.start()
@@ -205,8 +199,6 @@ class KernelTimeGenerator(App):
         buildcmd = "cd %s; ./case.build" % casedir
         runcmd = "cd %s; ./case.submit" % casedir
 
-        # TODO: move this batch support to common area
-
         batch = xmlquery(casedir, "BATCH_SYSTEM", "--value")
         if batch == "lsf":
             runcmd += " --batch-args='-K'"
@@ -246,11 +238,6 @@ class KernelTimeGenerator(App):
                 buildcmd, compjson, compjson, srcbackup)
         ret, fwds = self.manager.run_command(cmd)
 
-        # save compjson with case directory map
-        # handle mpas converted file for callsitefile2
-        # TODO: replace ekea contaminated file with original files
-        # TODO: recover removed e3sm converted files in cmake-bld, ... folders
-
         with open(compjson) as f:
             jcomp = json.load(f)
 
@@ -288,16 +275,10 @@ class KernelTimeGenerator(App):
         elif os.path.isdir(etimedir) and os.path.isfile(os.path.join(etimedir, "Makefile")):
             stdout = subprocess.check_output("make recover", cwd=etimedir, shell=True)
 
-        #cmd = " -- resolve --compile-info '@data' '%s'" % callsitefile
         rescmd = (" -- resolve --mpi header='%s/include/mpif.h' --openmp enable"
                  " --compile-info '%s' --exclude-ini '%s' '%s'" % (
                 mpidir, compjson, excludefile, callsitefile2))
-        #ret, fwds = prj.run_command(cmd)
-        #assert ret == 0
 
-        # TODO wait??
-        #cmd = rescmd + " -- runscan '@analysis' -s 'timing' --outdir '%s' --cleancmd '%s' --buildcmd '%s' --runcmd '%s' --output '%s'" % (
-                    #outdir, cleancmd, buildcmd, runcmd, outfile)
         cmd = rescmd + " -- runscan '@analysis' -s 'timing' --outdir '%s' --buildcmd '%s' --runcmd '%s' --output '%s'" % (
                     outdir, buildcmd, runcmd, outfile)
 

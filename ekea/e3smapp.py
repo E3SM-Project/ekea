@@ -7,12 +7,6 @@ import xml.etree.ElementTree as ET
 from microapp import App
 from ekea.utils import xmlquery
 
-# TODO: split functions
-# TODO: apply to varwhere
-# TODO: debug at summit
-# TODO: update doc
-# TODO: write paper
-
 here = os.path.dirname(os.path.abspath(__file__))
 
 # E3SM app
@@ -57,8 +51,6 @@ class E3SMKernel(App):
         # generate several absolute paths
         casedir = os.path.abspath(os.path.realpath(args.casedir["_"]))
         callsitefile = os.path.abspath(os.path.realpath(args.callsitefile["_"]))
-        #csdir, csfile = os.path.split(callsitefile)
-        #csname, csext = os.path.splitext(csfile)
         outdir = os.path.abspath(os.path.realpath(args.outdir["_"])) if args.outdir else os.getcwd()
 
         print("[Case directory] = %s" % casedir)
@@ -137,11 +129,6 @@ class E3SMKernel(App):
         cmd = " -- buildscan '%s' --savejson '%s' --reuse '%s' --backupdir '%s'" % (
                 buildcmd, compjson, compjson, srcbackup)
         ret, fwds = self.manager.run_command(cmd)
-
-        # save compjson with case directory map
-        # handle mpas converted file for callsitefile2
-        # TODO: replace ekea contaminated file with original files
-        # TODO: recover removed e3sm converted files in cmake-bld, ... folders
 
         # copy source file back to original locations if deleted
         with open(compjson) as f:
