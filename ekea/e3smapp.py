@@ -63,7 +63,7 @@ class E3SMKernel(App):
 
         print("[Case directory] = %s" % casedir)
         print("[Callsite file] = %s" % callsitefile)
-        print("[Output directory] = %s" % casedir)
+        print("[Output directory] = %s" % outdir)
 
         # create E3SM commands to clean/build/submit a E3SM case
         cleancmd = "cd %s; ./case.build --clean-all" % casedir
