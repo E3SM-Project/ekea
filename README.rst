@@ -49,6 +49,8 @@ Once **ekea** is installed correctly and a E3SM case is created successfully, yo
 
 The syntax of **ekea** command for simple usage is following:
 
+.. code-block:: bash
+
         >>> ekea <ocn|eam> $CASEDIR $CALLSITEFILE
 
 , where $CASEDIR is a directory path to E3SM case directory and $CALLSITEFILE is a file path to a E3SM source file containing **ekea** kernel region directives(explained below).
