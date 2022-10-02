@@ -1,7 +1,7 @@
 ..  -*- coding: utf-8 -*-
 
 ==============================
-EKea Timing Generation App
+ekea Timing Generation App
 ==============================
 
 This application consist of two applications: "ktimegen" and "ktimeview".

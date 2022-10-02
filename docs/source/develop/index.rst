@@ -1,7 +1,7 @@
 .. _develop:
 
 *****************
-FortLab
+Develop
 *****************
 
 ekea is built on top of Fortlab kernel extraction and analysis framework to make it easy to extract a kernel from E3SM as well as to build new tools for E3SM. Please see Fortral documentation for details.
@@ -32,7 +32,7 @@ ekea is implemented based on fortlab modules that implement core functions of Fo
 .. image:: ../_static/ekea-structure.png
 
 
-Ekea Class Structure
+ekea Class Structure
 ========================
 
 .. image:: ../_static/ekea-classes.png

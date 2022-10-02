@@ -1,10 +1,10 @@
 .. _analyses-index:
 
 *******************
-EKea Analysis Apps
+ekea Analysis Apps
 *******************
 
-In addition to generating a kernel, Ekea can be used as a framework for generating various analysis application for E3SM.
+In addition to generating a kernel, ekea can be used as a framework for generating various analysis application for E3SM.
 
 .. toctree::
     :maxdepth: 2

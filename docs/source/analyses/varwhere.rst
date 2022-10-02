@@ -1,7 +1,7 @@
 ..  -*- coding: utf-8 -*-
 
 ==================================
-EKea Kernel Variable Analysis App
+ekea Kernel Variable Analysis App
 ==================================
 
 This tool generates variable and function(subroutine) call cross-reference information and put them in the source code so that user can easily see where variables are defined and being used. This analysis information particularly useful if user wants to restructure code for various purposes including GPU porting.
@@ -17,7 +17,7 @@ Cross-reference information includes.
 Installation
 ==============
 
-This app is a default app in Ekea. Once Ekea is installed, this app will be available.
+This app is a default app in ekea. Once ekea is installed, this app will be available.
 
 
 Usage

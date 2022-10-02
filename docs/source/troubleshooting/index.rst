@@ -13,7 +13,7 @@ After completion, some steps produce intermittent outputs as shown above.
 
 The basic approach to resolve issue during kernel extraction is to identify which step went wrong by locating those intermittent outputs.
 
-Ekea checks if those intermittent outputs exist. If so, Ekea skip the steps required to generate the outputs. For some reasion, if you do not want to skip those steps, just remove the output files.
+ekea checks if those intermittent outputs exist. If so, ekea skip the steps required to generate the outputs. For some reasion, if you do not want to skip those steps, just remove the output files.
 
 Checking compile.json
 ============================
@@ -43,7 +43,7 @@ Checking model.json
 * start clock and stop clock of the kernel code
 * MPI rank, OpenMP thread id, and the order of invocation
 
-This timing information is analyzed by Ekea internally and generates a set of triplets with MPI rank, OpenMP thread id, and the order of invocation that maximally represents the timing characteristics of the original E3SM execution.
+This timing information is analyzed by ekea internally and generates a set of triplets with MPI rank, OpenMP thread id, and the order of invocation that maximally represents the timing characteristics of the original E3SM execution.
 
 Following list explains causes of failure and corresponding possible fixes if there is not "compile.json" in the directory.
 
