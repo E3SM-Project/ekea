@@ -17,4 +17,6 @@ class EAMKernel(E3SMKernel):
     def perform(self, args):
         """Extract a EAM kernel."""
 
-        self.generate(args, "exclude_e3sm_eam.ini")
+        here = os.path.dirname(os.path.realpath(__file__))
+
+        self.generate(args, os.path.join(here, "exclude_e3sm_eam.ini"))

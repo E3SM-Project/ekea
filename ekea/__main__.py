@@ -2,8 +2,8 @@
 
 
 def main():
-    from ekea import E3SMKea
-    ret, _ = E3SMKea().run_command()
+    from ekea import EKEA
+    ret, _ = EKEA().run_command()
     return ret
 
 

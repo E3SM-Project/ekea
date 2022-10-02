@@ -5,18 +5,18 @@
 def main():
 
     from setuptools import setup, find_packages
-    from ekea.main import E3SMKea as kea
+    from ekea.main import EKEA
 
     console_scripts = ["ekea=ekea.__main__:main"]
-    install_requires = ["fortlab>=0.1.13", "numpy", "bokeh"]
+    install_requires = ["fortlab>=1.0.1"]
 
     setup(
-        name=kea._name_,
-        version=kea._version_,
-        description=kea._description_,
-        long_description=kea._long_description_,
-        author=kea._author_,
-        author_email=kea._author_email_,
+        name=EKEA._name_,
+        version=EKEA._version_,
+        description=EKEA._description_,
+        long_description=EKEA._long_description_,
+        author=EKEA._author_,
+        author_email=EKEA._author_email_,
         classifiers=[
             "Development Status :: 3 - Alpha",
             "Intended Audience :: Science/Research",
