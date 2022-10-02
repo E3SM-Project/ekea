@@ -14,7 +14,7 @@
 ekea: E3SM Kernel Extraction and Analysis
 ===================================================
 
-**ekea** automates the process of kernel extraction from a large Fortran applicatin. Especially, it is customized for E3SM so that, in many kernel extraction cases from E3SM, user only needs to specify E3SM case directory and region for kernel extraction.
+**ekea** automates the process of kernel extraction from a large Fortran applicatin. Especially, it is customized for E3SM so that, in many kernel extraction cases from E3SM, user only needs to specify a E3SM case directory and a code region for kernel extraction.
 
 In additiion, user can easily extend **ekea** to create a new E3SM analysis software tools(ekea-app). Several examples of ekea-app are included in this distribution too.
 

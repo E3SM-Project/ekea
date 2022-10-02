@@ -12,15 +12,21 @@ Installation
 
 The easiest way to install **ekea** is to use the pip python package manager. 
 
+.. code-block:: bash
+
         >>> pip install ekea
 
 You can install **ekea** from github code repository if you want to try the latest version.
+
+.. code-block:: bash
 
         >>> git clone https://github.com/grnydawn/ekea.git
         >>> cd ekea
         >>> python setup.py install
 
 Once installed, you can test the installation by running the following command.
+
+.. code-block:: bash
 
         >>> ekea --version
         ekea 1.1.2
