@@ -1,4 +1,4 @@
-.. _fortlab-index:
+.. _develop:
 
 *****************
 FortLab

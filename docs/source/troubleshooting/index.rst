@@ -2,7 +2,7 @@
 
 
 =============================
-Extraction Troubleshootings
+Troubleshootings
 =============================
 
 The execution of ekea is consist of several consecutive steps.
