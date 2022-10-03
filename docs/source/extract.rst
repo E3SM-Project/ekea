@@ -6,7 +6,7 @@ Extracting a E3SM kernel
 
 Following sections explain how to extract a kernel from MPAS Ocean model using **ekea**. The same method can be used to extract a kernel from EAM model.
 
-Step 0. Create a E3SM case
+Step 0. create a E3SM case
 ----------------------------
 
 Before preceeding, please make sure that you have cloned E3SM repository on the system where you run ekea.
@@ -42,7 +42,7 @@ The E3SM case used in this example is as following:
                 --output-root "${OUTROOT}"
 
 
-Step 1. Mark the kernel region with ekea directives in source file
+Step 1. mark the kernel region with ekea directives in source file
 ----------------------------------------------------------------------------
 
 Next thing to extract a kernel is to specify ekea kernel region in a E3SM source file. In this example, we selected "${E3SM}/components/mpas-ocean/src/shared/mpas_ocn_vel_hadv_coriolis.F". If you checked out "ykim/crusher/ekea" branch, there already exist the directives in the source file as shown below:

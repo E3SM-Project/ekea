@@ -46,6 +46,7 @@ As of this version, **ekea** supports MPAS Ocean model and EAM model.
    message 
    kernel 
    output 
+   complex
    analyses/index
    develop/index
    troubleshooting/index
