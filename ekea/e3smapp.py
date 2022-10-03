@@ -9,6 +9,8 @@ from ekea.utils import xmlquery
 
 here = os.path.dirname(os.path.abspath(__file__))
 
+#match_namepath = re.compile(r'\s*\[\s*namepath\s*\]')
+
 # E3SM app
 class E3SMKernel(App):
     """Generate E3SM kernel
@@ -29,10 +31,45 @@ class E3SMKernel(App):
         self.add_argument("callsitefile", metavar="callsitefile", help="ekea callsite Fortran source file")
         self.add_argument("-o", "--outdir", type=str, help="output directory")
         self.add_argument("-m", "--mpidir", type=str, help="MPI root directory")
+        self.add_argument("-e", "--exclude-ini", dest="exclude_ini", action='store',
+                            type=str, help="information excluded for analysis")
         self.add_argument("--no-batch", action="store_true", help="Do not submit jobs to batch system, run locally")
 
         # placeholder for providing next application with analysis object. Not used yet.
         self.register_forward("data", help="json object")
+
+    
+    def ini_merge(self, userini, excludefile, outdir):
+
+        sections = {}
+        section = None
+
+        for inifile in [userini, excludefile]:
+            with open(inifile) as f:
+                for line in f:
+                    line2 = line.strip()
+                    if len(line2) >=2 and line2[0] = "[" and line2[-1] = "]":
+                        secname = line2[1:-1].strip()
+                        if secname not in sections:
+                            sections[secname] = []
+
+                        section = sections[secname]
+
+                    elif section:
+                        section.append(line)
+
+                    else:
+                        raise("Exclude ini file syntax error: %s" % line)
+
+        outini = os.path.join(outdir, "excludes.ini")
+
+        with open(outini, "w") as f:
+            for secname, secbody in sections.items():
+                f.write("[%s]\n" % secname)
+                for line in secbody:
+                    f.write(line)
+        
+        return outini
 
     # main entry
     def generate(self, args, excludefile):
@@ -61,6 +98,9 @@ class E3SMKernel(App):
         cleancmd = "cd %s; ./case.build --clean-all" % casedir
         buildcmd = "cd %s; ./case.build" % casedir
         runcmd = "cd %s; ./case.submit" % casedir
+
+        if args.exclude_ini and os.path.isfile(args.exclude_ini):
+            excludefile = self.ini_merge(args.exclude_ini, excludefile, outdir)
 
         if args.no_batch:
             runcmd += " --no-batch"
