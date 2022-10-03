@@ -4,7 +4,7 @@
 Getting-started
 ===============
 
-To use ekea, **ekea** needs be installed on the system where E3SM case directory and E3SM source files exist.
+To use ekea, **ekea** needs to be installed on the system where E3SM case directory and E3SM source files exist.
 
 -------------
 Installation
@@ -16,7 +16,7 @@ The easiest way to install **ekea** is to use the pip python package manager.
 
         >>> pip install ekea
 
-You can install **ekea** from github code repository if you want to try the latest version.
+You can install **ekea** from the github code repository if you want to try the latest version.
 
 .. code-block:: bash
 
@@ -55,12 +55,12 @@ The syntax of **ekea** command for simple usage is following:
 
 , where $CASEDIR is a directory path to E3SM case directory and $CALLSITEFILE is a file path to a E3SM source file containing **ekea** kernel region directives(explained below).
 
-Next to "ekea" command, user chooses one of two subcommands(**ocn** or **eam**) for MPAS Ocean Model and E3SM Atmospheric Model each.
+Next to the "ekea" command, the user chooses one of two subcommands(**ocn** or **eam**) for MPAS Ocean Model and E3SM Atmospheric Model each.
 
 Kernel region directives
 -------------------------
 
-As shown below, a pair of "begin_callsite" and "end_callsite" directives defines an ekea kernel region in source code. The kernel region is where to be extracted as a kernel. Following example shows a **ekea** kernel region that encompasses a DO loop.
+As shown below, a pair of "begin_callsite" and "end_callsite" directives defines an ekea kernel region in source code. The kernel region is where to be extracted as a kernel. Following example shows an **ekea** kernel region that encompasses a DO loop.
 
 .. code-block:: fortran
 

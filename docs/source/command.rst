@@ -4,7 +4,7 @@
 ekea command-line syntax
 ==========================
 
-Following shows ekea eam command line syntax.
+Following shows the ekea command line syntax.
 
 ::
 
@@ -42,19 +42,19 @@ With this option specified with OUTDIR path, all of ekea outputs will be created
 -m, --mpidir MPIDIR
 -------------------------
 
-This option specifies the root of MPI directory used for building E3SM executable. This option may be used in case that user gets an ekea error related to not finding MPI parameters.
+This option specifies the root of the MPI directory used for building the E3SM executable. This option may be used in case that user gets an ekea error related to not finding MPI parameters.
 
 -e, --exclude-ini EXCLUDE_INI
 -------------------------------
 
-This is a INI-format file that specifies a list of names that should be excluded during ekea source file analysis.
+This is a INI-format file that specifies a list of names that should be excluded during ekea source file analysis. Please see :ref:`exclude_ini` for details.
 
 -i, --include-ini INCLUDE_INI
 -------------------------------
 
-This is a INI-format file that specifies several information for ekea to include during source file analysis.
+This is a INI-format file that specifies several pieces of information for ekea to include during source file analysis. Please see :ref:`include_ini` for details.
 
 --no-batch
 -------------------------
 
-This option add "--no-batch" option to "case.submit" command allowing building and running E3SM on an interactive node, insteads of submitting a job to a job scheduler.
+This option adds the "--no-batch" option to the "case.submit" command allowing building and running E3SM on an interactive node, insteads of submitting a job to a job scheduler.

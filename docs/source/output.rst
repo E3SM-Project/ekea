@@ -4,7 +4,7 @@
 ekea output files and directories
 ************************************
 
-ekea creates several directories and generates files in the directories during kernel extraction . The next section explains the generated files in kernel subdirectory. And following sections explains all other directories and files other than kernel directory.
+ekea creates several directories and generates files in the directories during kernel extraction . The next section explains the generated files in the kernel subdirectory. And the following sections explains all other directories and files other than the kernel directory.
 
 Files in kernel directory
 --------------------------------------------------------
@@ -17,12 +17,12 @@ Files whose extension is f90. The entry of the program is in "kernel_driver.f90"
 Kernel binary data files
 ************************
 
-Files whose name ends with ###.###.### where # represents one or more digit numbers (example: mpas_ocn_coriolis.0.0.1). Each of these file is a set of one kernel invocation.
+Files whose name ends with ###.###.### where # represents one or more digit numbers (example: mpas_ocn_coriolis.0.0.1). Each of these files is a set of one kernel invocation.
 
 Makefile file
 ************************
 
-This is an auto-generated makefile to compile and run this kernel. This file make it easy to build and run kernel. The useful Makefile targets are build to build the kernel and run to run the kernel.
+This is an auto-generated makefile to compile and run this kernel. This file makes it easy to build and run the kernel. The useful Makefile targets are built to build the kernel and run to run the kernel.
 
 
 kgen_statefile.lst
@@ -53,7 +53,7 @@ This JSON file contains kernel timing measurement information: kernel region wal
 backup directory
 ************************
 
-This directory contains all the E3SM source files compiled during E3SM compilation. This backed-uped files can be used in the case that the files are dynamically generated and delted before completion of compilation.
+This directory contains all the E3SM source files compiled during E3SM compilation. These backed-up files can be used in the case that the files are dynamically generated and deleted before completion of compilation.
 
 etime directory
 ************************
@@ -63,7 +63,7 @@ This directory contains instrumented source files for kernel wall-time generatio
 model directory
 ************************
 
-This directory contains kernel timing raw measurments.
+This directory contains kernel timing raw measurements.
 
 
 state directory

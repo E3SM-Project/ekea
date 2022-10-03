@@ -4,7 +4,7 @@
 ekea screen messages
 *************************************
 
-During kernel extraction, ekea displays important messages on terminal screen. The messages show what ekea is currently working on during one of the following stages:
+During kernel extraction, ekea displays important messages on the terminal screen. The messages show what ekea is currently working on during one of the following stages:
 
 * ekea starts
 * collecting E3SM case information
@@ -19,7 +19,7 @@ During kernel extraction, ekea displays important messages on terminal screen. T
 ekea screen messages
 ******************************************************************************
 
-This sections introduces the details of screen output messages.
+This section introduces the details of screen output messages.
 
 ::
 
@@ -28,13 +28,13 @@ This sections introduces the details of screen output messages.
 
         ==== Collecting compiler flags (cd /.../T62_oQU120.CMPASO-NYF; ./case.build) ====
         In this stage, ekea collects compiler options used to compile E3SM source files
-        Displays the status messags of collecting compiler options and informative messages about the task 
+        Displays the status message of collecting compiler options and informative messages about the task 
         ==== Analyzing source codes ====
         In this stage, ekea analyze source codes based on source codes used during compilation.
 
         ==== Generating timing raw data ====
         In this stage, ekea instrument source code to generate kernel elapsed time.
-        With the instrumentation, ekea re-build and run E3SM.
+        With the instrumentation, ekea rebuild and run E3SM.
 
         ==== Collecting timing data ====
         In this stage, ekea selects MPI ranks, OpenMP threads (if used), and the invocation orders to maximize the representativeness in the extracted kernel
@@ -46,7 +46,7 @@ This sections introduces the details of screen output messages.
 
         ==== Generating state data files (/.../T62_oQU120.CMPASO-NYF/ekea/kernel) ====
         ekea instrument E3SM source files to generate binary data files.
-        With the instrumentation, ekea re-build and run E3SM.
+        With the instrumentation, ekea rebuild and run E3SM.
 
         ==== Kernel extraction is finished. (ocn) ====
 

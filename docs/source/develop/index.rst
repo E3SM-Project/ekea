@@ -6,14 +6,14 @@ Develop
 
 ekea is built on top of Fortlab kernel extraction and analysis framework to make it easy to extract a kernel from E3SM as well as to build new tools for E3SM. Please see Fortral documentation for details.
 
-In this article, we will explain how the source files of ekea are organized, how Fortlab functionalites are used, and what are the features unique to ekea.
+In this article, we will explain how the source files of ekea are organized, how Fortlab functionality is used, and what are the features unique to ekea.
 
 Source files of ekea
 ========================
 
-**main.py**: "E3SMKea" class is defined as an extension of "Fortlab" class. This class contains a list of application classes that uses Fortlab apps.
+**main.py**: "E3SMKea" class is defined as an extension of "Fortlab" class. This class contains a list of application classes that use Fortlab apps.
 
-**e3smapp.py**: "E3SMKernel" class defined in this file drives overall process of kernel extraction using Fortlab applications.
+**e3smapp.py**: "E3SMKernel" class defined in this file drives the overall process of kernel extraction using Fortlab applications.
 
 **eam.py**: "EAMKernel" class in this file simply calls a function in "E3SMKernel" with an name exclusion list. 
 

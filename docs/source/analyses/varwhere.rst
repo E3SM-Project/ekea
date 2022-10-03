@@ -4,7 +4,7 @@
 ekea Kernel Variable Analysis App
 ==================================
 
-This tool generates variable and function(subroutine) call cross-reference information and put them in the source code so that user can easily see where variables are defined and being used. This analysis information particularly useful if user wants to restructure code for various purposes including GPU porting.
+This tool generates variable and function(subroutine) call cross-reference information and puts them in the source code so that user can easily see where variables are defined and being used. This analysis information is particularly useful if the user wants to restructure code for various purposes including GPU porting.
 
 Cross-reference information includes.
 
@@ -33,7 +33,7 @@ Usage
 Outputs
 ============
 
-Once completed successfully, “kernel” directory will be created in output directory with source files annotated with cross reference information.
+Once completed successfully, “kernel” directory will be created in the output directory with source files annotated with cross reference information.
 
 ::
 

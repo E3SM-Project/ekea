@@ -6,17 +6,17 @@ Kernel execution output on screen
 
 Kernel execution verification and timing measurements are built-in in all ekea kernels.
 
-During kernel extraction, ekea generates one or more binary data files in kernel subdirectory. The extracted kernel reads those data files at runtime and load it to proper variables, and check if the extracted kernel produces the same contents of the variables compared to the data generated from the original E3SM execution.
+During kernel extraction, ekea generates one or more binary data files in the kernel subdirectory. The extracted kernel reads those data files at runtime and loads it to proper variables, and checks if the extracted kernel produces the same contents of the variables compared to the data generated from the original E3SM execution.
 
-For example, following examples reads "mpas_ocn_coriolis.45.0.1" binary data file and shows the verification results. Among variables used in the kernel, 14 variables are marked as out type. Therefore the content of the 14 variables are verified after execution the kernel. In following example, among 14 out type variables, 13 variables are bit-for-bit same while one variable is different within 1.0E14 tolerance. Because none of out type variables is out of tolerance, the test is PASSED. Next the kernel displays the elapsed time measurement of the kernel execution.
+In the following example, "mpas_ocn_coriolis.45.0.1" binary data file is read and the verification results is shown. Among variables used in the kernel, 14 variables are marked as out type. Therefore the content of the 14 variables are verified after execution by the kernel. In the following example, among 14 out-type variables, 13 variables are bit-for-bit the same while one variable is different within 1.0E14 tolerance. Because none of out-type variables is out of tolerance, the test is PASSED. Next the kernel displays the elapsed time measurement of the kernel execution.
 
-User can modify the tolerance and the amount of information to display by changing values in the source files that contains ekea kernel region. For example, in "mpas_ocn_vel_hadv_coriolis.f90" in this example, User can change values in following code.
+Users can modify the tolerance and the amount of information to display by changing values in the source files that contain theekea kernel region. For example, in "mpas_ocn_vel_hadv_coriolis.f90" in this example, User can change values in the following code.
 
 .. code-block:: fortran
 
         CALL kgen_init_verify(tolerance=1.D-14, minvalue=1.D-14, verboseLevel=1)
 
-"minvalue" is to set the minimum distinguishable value. "verboseLevel" set the amount of information to display. Higher value will display more information on screen upto 3.
+"minvalue" is to set the minimum distinguishable value. "verboseLevel" sets the amount of information to display. Higher value will display more information on screen upto 3.
 
 ::
 
@@ -50,5 +50,5 @@ User can modify the tolerance and the amount of information to display by changi
         ****************************************************
 
 
-At the end of kernel execution, the kernel displays the summary of kernel execution. In this example, it shows that 40 binary data files are used to verfication and all of them are passed. The elapsed time statistics are shown below with average, miminum, and maximum elapsed times.
+At the end of kernel execution, the kernel displays the summary of kernel execution. In this example, it shows that 40 binary data files are used to verification and all of them are passed. The elapsed time statistics are shown below with average, minimum, and maximum elapsed times.
 

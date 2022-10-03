@@ -9,15 +9,15 @@ Following sections explain how to extract a kernel from MPAS Ocean model using *
 Step 0. create a E3SM case
 ----------------------------
 
-Before preceeding, please make sure that you have cloned E3SM repository on the system where you run ekea.
+Before proceeding, please make sure that you have cloned the E3SM repository on the system where you run ekea.
 
-Once you have E3SM repository on your system, tries to checkout an ekea tutorial branch on E3SM github.
+Once you have an E3SM repository on your system, tries to checkout an ekea tutorial branch on E3SM github.
 
 .. code-block:: bash
 
         >>> git checkout ykim/crusher/ekea
 
-The example on this branch is tested on a system (Crusher of Oak Ridge National Laboratory) and most of explanations here should be applicable to other systems too.
+The example on this branch is tested on a system (Crusher of Oak Ridge National Laboratory) and most of the explanations here should be applicable to other systems too.
 
 The E3SM case used in this example is as following:
 
@@ -109,7 +109,7 @@ Next thing to extract a kernel is to specify ekea kernel region in a E3SM source
 
         end module ocn_vel_hadv_coriolis
 
-The essential lines for kernel extraction in the above example are the lines starts with "!$kgen". The two directives should be in the same block level. For example, the following cases are **NOT** allowed:
+The essential lines for kernel extraction in the above example are the lines starting with "!$kgen". The two directives should be in the same block level. For example, the following cases are **NOT** allowed:
 
 * "begin_callsite" is located outside of a DO Fortran block while "end_callsite" is inside of the Do block.
 * "begin_callsite" is located inside of a subroutine while "end_callsite" is inside of another subroutine.
@@ -150,9 +150,9 @@ When an error occurs during ekea kernel extraction, it is helpful to know which 
 Step 4. check extracted kernel source files and data files
 ---------------------------------------------------------------
 
-Once completed kernel extraction successfully, kernel directory will be created in the output directory with source files, data files, and a Makefile. Please see :ref:`ekea-output` for the details of output files.
+With successful kernel extraction, kernel directory will be created in the output directory with source files, data files, and a Makefile. Please see :ref:`ekea-output` for the details of output files.
 
-The following shows the files generated in kernel subdirector of this example.
+The following shows the files generated in the kernel sub-directory of this example.
 
 .. code-block:: bash
 
@@ -240,7 +240,7 @@ To run the kernel, run following make command:
             Maximum call time (usec):  0.143E+04
         ****************************************************
 
-Running the extracted kernel displays verfication and timing information of the execution. Please see :ref:`kernel-output` for details.
+Running the extracted kernel displays verification and timing information of the execution. Please see :ref:`kernel-output` for details.
 
 
 Step 5. using the kernel
@@ -248,4 +248,4 @@ Step 5. using the kernel
 
 The extracted kernel is a stand-alone software that can be compiled and run without using MPI nor batch system. Therefore, at this point, it is upto users to decide what to do with the extracted kernel.
 
-If you want to modify source code of the kernel, it is generally good idea to start looking at the call site file that you specified in ekea command line, "mpas_ocn_vel_hadv_coriolis.f90" in this example.
+If you want to modify the source code of the kernel, it is generally a good idea to start looking at the call site file that you specified in the ekea command line, "mpas_ocn_vel_hadv_coriolis.f90" in this example.
