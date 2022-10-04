@@ -5,11 +5,14 @@
 Troubleshootings
 =============================
 
+In this section, we explain what you may need to check first when kernel extraction fails. If you have specific question on your kernel extraction experience, please leave your question at `ekea github issues <https://github.com/E3SM-Project/ekea/issues>`_. 
+
+
 The execution of ekea consists of several consecutive steps.
 
 .. image:: ../_static/ekea-steps.png
 
-After completion, some steps produce intermittent outputs as shown above.
+After completion, some steps produce intermittent outputs in ekea output directory as shown above.
 
 The basic approach to resolve issues during kernel extraction is to identify which step went wrong by locating those intermittent outputs.
 

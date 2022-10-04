@@ -51,15 +51,15 @@ All "namepaths" specified under "[namepath]" section will be excluded from ekea 
 
 ":" in namepaths works as either a separator or any names.
 
-Exclusion action comes after the equal sign in the namepath line. If no execution action is specified, its default action is simply to ignore the namepath.
+Exclusion action comes after the equal sign in the namepath line. If no execution action is specified, its default action is to accept it as a regular namepath.
 
-After equal sign of the "pio" line, the "skip_module" is an action for ekea to skin the "pio" module. "skip_module" action order ekea skip any lines that contain the module name of "pio". By doing this, ekea skips any Fortran USE statements that contain "pio" module name.
+After equal sign of the "pio" line, the "skip_module" is an action for ekea to skip the "pio" module. "skip_module" action lets ekea skip any lines that contain the module name of "pio" in Fortran USE statement.
 
 ":mpas_log_open" tells ekea to skip the Fortran statements that contains "mpas_log_open". Namepath is organized as a hierarchy from module name through subroutine(function) name to a name in execution statements. For example, if a module "A" has a subroutine "B", and the subroutine "B" has a Fortran statement having "C" variable, then we can select the "C" by specifying namepath as "A:B:C".  In case of ":mpas_log_open", because there exists ":" as the first characters, it selects all statements having "mpas_log_open" in any subroutine in any modules in a source file. The ":" acts as if it is "*" in "ls" linux command.
 
 "mixing_length:compute_mixing_length:t_startf" tells ekea to exclude the name of "t_startf" in the "compute_mixing_length" subroutine of the "mixing_length" module.
 
-"parameters_tunable::initvars" tells ekea to exclude the name of "initvars" in the module "parameters_tunable".
+"parameters_tunable::initvars" tells ekea to exclude the name of "initvars" in the module "parameters_tunable" regardless of the name of subroutine(or function).
 
 .. _include_ini:
 
