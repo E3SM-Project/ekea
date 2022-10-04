@@ -32,7 +32,9 @@ class E3SMKernel(App):
         self.add_argument("-o", "--outdir", type=str, help="output directory")
         self.add_argument("-m", "--mpidir", type=str, help="MPI root directory")
         self.add_argument("-e", "--exclude-ini", dest="exclude_ini", action='store',
-                            type=str, help="information excluded for analysis")
+                            type=str, help="information to be excluded for analysis")
+        self.add_argument("-i", "--include-ini", dest="include_ini", action='store',
+                            type=str, help="information to be included for analysis")
         self.add_argument("--no-batch", action="store_true", help="Do not submit jobs to batch system, run locally")
 
         # placeholder for providing next application with analysis object. Not used yet.
@@ -48,7 +50,7 @@ class E3SMKernel(App):
             with open(inifile) as f:
                 for line in f:
                     line2 = line.strip()
-                    if len(line2) >=2 and line2[0] = "[" and line2[-1] = "]":
+                    if len(line2) >=2 and line2[0] == "[" and line2[-1] == "]":
                         secname = line2[1:-1].strip()
                         if secname not in sections:
                             sections[secname] = []
@@ -99,8 +101,12 @@ class E3SMKernel(App):
         buildcmd = "cd %s; ./case.build" % casedir
         runcmd = "cd %s; ./case.submit" % casedir
 
-        if args.exclude_ini and os.path.isfile(args.exclude_ini):
-            excludefile = self.ini_merge(args.exclude_ini, excludefile, outdir)
+        if args.exclude_ini and os.path.isfile(args.exclude_ini["_"]):
+            excludefile = self.ini_merge(args.exclude_ini["_"], excludefile, outdir)
+
+        includeopt = ""
+        if args.include_ini and os.path.isfile(args.include_ini["_"]):
+            includeopt = "--include-ini '%s'" % args.include_ini["_"]
 
         if args.no_batch:
             runcmd += " --no-batch"
@@ -214,8 +220,8 @@ class E3SMKernel(App):
 
         # fortlab command to analyse source files
         rescmd = (" -- resolve --mpi header='%s/include/mpif.h' %s"
-                 " --compile-info '%s' --exclude-ini '%s' '%s'" % (
-                mpidir, ompflag, compjson, excludefile, callsitefile))
+                 " --compile-info '%s' --exclude-ini '%s' %s '%s' --outdir '%s'" % (
+                mpidir, ompflag, compjson, excludefile, includeopt, callsitefile, outdir))
 
         # fortlab command to generate raw timing data
         cmd = rescmd + " -- runscan '@analysis' -s 'timing' --outdir '%s' --buildcmd '%s' --runcmd '%s' --output '%s'" % (
